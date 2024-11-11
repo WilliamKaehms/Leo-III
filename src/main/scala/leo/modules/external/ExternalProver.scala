@@ -282,7 +282,7 @@ class EProver(val path : String) extends TptpProver[AnnotatedClause] {
       "--delete-bad-limit=2000000000",
       "--definitional-cnf=24",
       "-s",
-      "--proof-object=1",
+      "--proof-object=0",
       "--auto-schedule",
       "--split-clauses=4",
       "--split-reuse-defs",
