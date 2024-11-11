@@ -218,7 +218,7 @@ trait TptpProver[C <: ClauseProxy] extends HasCapabilities { self =>
       val stdin = scala.io.Source.fromInputStream(process0.getInputStream).getLines().toSeq
       val stderr = scala.io.Source.fromInputStream(process0.getErrorStream).getLines().toSeq
 
-      if (Configuration.isSet("atpdebug")) {
+      if (Configuration.isSet("atpdebug") & stdin.contains("Proof found!")) {
         val answer = stdin.mkString("\n")
         leo.Out.output("#############################")
         leo.Out.output("name:" + name)
