@@ -1,11 +1,14 @@
 /*
 package leo.modules.external
 
+import leo.modules.input
+import leo.modules.external.TptpProver
+
 /**
   * TODO Create some Code
   * @param myParam Some test
   */
-object Reconstructor {
+object Reconstructor extends TptpProver {
 
     private def printExternalProofObject(): Unit = try {
       assert(terminated)
