@@ -218,18 +218,20 @@ trait TptpProver[C <: ClauseProxy] extends HasCapabilities { self =>
       val stdin = scala.io.Source.fromInputStream(process0.getInputStream).getLines().toSeq
       val stderr = scala.io.Source.fromInputStream(process0.getErrorStream).getLines().toSeq
 
-      if (Configuration.isSet("atpdebug") & stdin.contains("Proof found!")) {
+      if (Configuration.isSet("atpdebug")) {
         val answer = stdin.mkString("\n")
-        leo.Out.output("#############################")
-        leo.Out.output("name:" + name)
-        leo.Out.output("--------------------")
-        leo.Out.output("output:" + answer)
-        leo.Out.output("--------------------")
-        if (answer.contains("error")) {
-           leo.Out.output("+-+-+-+-+-+-+-+-+-+-+-+-+ Melon Melon!")
-           originalProblem.foreach(c => leo.Out.output(c.pretty))
-           leo.Out.output("+-+-+-+-+-+-+-+-+-+-+-+-+ Melon Melon!")
-           throw new Error
+        if (answer.contains("Proof found!")) {
+          leo.Out.output("#############################")
+          leo.Out.output("name:" + name)
+          leo.Out.output("--------------------")
+          leo.Out.output("output:" + answer)
+          leo.Out.output("--------------------")
+          if (answer.contains("error")) {
+             leo.Out.output("+-+-+-+-+-+-+-+-+-+-+-+-+ Melon Melon!")
+             originalProblem.foreach(c => leo.Out.output(c.pretty))
+             leo.Out.output("+-+-+-+-+-+-+-+-+-+-+-+-+ Melon Melon!")
+             throw new Error
+          }
         }
       }
       val errorMsg = stderr.mkString("\n")
