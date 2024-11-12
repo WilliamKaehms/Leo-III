@@ -5,7 +5,7 @@ import java.io.{File, PrintWriter}
 import leo.Configuration
 import leo.datastructures.{Clause, ClauseProxy, Signature}
 import leo.modules.output._
-import leo.modules.external.{Translation}
+import leo.modules.external.Translation
 
 /**
   *
@@ -220,7 +220,8 @@ trait TptpProver[C <: ClauseProxy] extends HasCapabilities { self =>
       val stderr = scala.io.Source.fromInputStream(process0.getErrorStream).getLines().toSeq
 
       if (Configuration.isSet("atpdebug")) {
-        val answer = stdin.mkString("\n")
+        val answer0 = stdin.mkString("\n")
+        val answer = Translation.cleanExternalResult(answer0)
         leo.Out.output("#############################")
         leo.Out.output("name:" + name)
         leo.Out.output("--------------------")

@@ -1,5 +1,7 @@
 package leo.modules.external
 
+import leo.modules.input
+
 /**
   * TODO Create some Code
   * @param myParam Some test
@@ -7,14 +9,16 @@ package leo.modules.external
 object Translation {
   
   def cleanExternalResult(externalResult: String): String = {
-    val cleanedResult = new StringBuilder()
-    val iter = Iterator(externalResult.split("\n"))
-    while(iter.hasNext) {
-      if(iter.next().contains("tff(")) {
-        cleanedResult.append(iter.next()+"\n")
+    val cleanedResult: StringBuilder = new StringBuilder
+    val seqExternal: Seq[String] = externalResult.split("\n")
+    for (line <- seqExternal) {
+      if (line.contains("tff") || line.contains("tcf")) {
+        cleanedResult.append(line + "\n")
       }
     }
+    cleanedResult.toString()
   }
+
   /*
     object Role {
     def apply(role: String): Role = role.trim match {
@@ -34,7 +38,9 @@ object Translation {
   }
   */
 
-  private def annotationConversion(input0: String): String = {
+/*
+  private def annotationConversion(input0: Seq[TPTP.AnnotatedFormula]): Seq[TPTP.AnnotatedFormula] = {
     val test: String = "Example"
   }
+  */
 }
