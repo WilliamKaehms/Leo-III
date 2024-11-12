@@ -35,6 +35,6 @@ object Translation {
   */
 
   private def annotationConversion(input0: String): String = {
-    val test = "Example"
+    val test: String = "Example"
   }
 }
