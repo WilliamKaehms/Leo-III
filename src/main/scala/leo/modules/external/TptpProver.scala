@@ -5,6 +5,7 @@ import java.io.{File, PrintWriter}
 import leo.Configuration
 import leo.datastructures.{Clause, ClauseProxy, Signature}
 import leo.modules.output._
+import leo.modules.external.{Translation}
 
 /**
   *
