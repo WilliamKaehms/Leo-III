@@ -10,7 +10,6 @@ object Translation {
 
   def translateToTHF(externalResult: String): String = {
     var res = cleanExternalResult(externalResult.split("\n"))
-    res = languageToTHF(res)
     res.mkString("\n")
   } 
   
