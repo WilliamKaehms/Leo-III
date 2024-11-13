@@ -7,18 +7,29 @@ import leo.modules.input
   * @param myParam Some test
   */
 object Translation {
+
+  def translateToTHF(externalResult: String): String = {
+    var res = cleanExternalResult(externalResult)
+    res = languageToTHF(res)
+    res.mkString("\n")
+  } 
   
-  def cleanExternalResult(externalResult: String): String = {
-    val cleanedResult: StringBuilder = new StringBuilder
+  private def cleanExternalResult(externalResult: String): String = {
+    var cleanedResult = Seq[String]()
     val seqExternal: Seq[String] = externalResult.split("\n")
     for (line <- seqExternal) {
       if (line.contains("tff") || line.contains("tcf")) {
-        cleanedResult.append(line + "\n")
+        cleanedResult = cleanedResult :+ line
       }
     }
-    cleanedResult.toString()
   }
 
+  private def languageToTHF(listOfFormulas: Seq[String]): Seq[String] = {
+    var res = Seq[String]()
+    for(line <- listOfFormulas) {
+      res = res :+ "thf" + line.substring(3,line.length())
+    }
+  }
   /*
     object Role {
     def apply(role: String): Role = role.trim match {
