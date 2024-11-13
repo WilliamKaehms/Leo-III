@@ -20,6 +20,13 @@ project/plugins/project/
 /.classpath
 src/main/resources/META-INF/
 
+# VSCode Scala (Metals) extention
+*.json
+*.db
+*.semanticdb
+project/metals.sbt
+
+
 # Compile specific
 out/*
 project/project/*
@@ -37,12 +44,3 @@ src/native/picosat-965
 
 # Leo-III StarExec image
 contrib/leo3_starexec.tar.gz
-.bloop/bloop.settings.json
-.bloop/leo-test.json
-.bloop/leo.json
-.metals/metals.lock.db
-.metals/metals.mv.db
-.vscode/settings.json
-project/metals.sbt
-project/.bloop/bloop.settings.json
-project/.bloop/leo-iii-build.json

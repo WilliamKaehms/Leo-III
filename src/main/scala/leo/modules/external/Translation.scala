@@ -9,27 +9,33 @@ import leo.modules.input
 object Translation {
 
   def translateToTHF(externalResult: String): String = {
-    var res = cleanExternalResult(externalResult)
+    var res = cleanExternalResult(externalResult.split("\n"))
     res = languageToTHF(res)
     res.mkString("\n")
   } 
   
-  private def cleanExternalResult(externalResult: String): String = {
-    var cleanedResult = Seq[String]()
-    val seqExternal: Seq[String] = externalResult.split("\n")
-    for (line <- seqExternal) {
-      if (line.contains("tff") || line.contains("tcf")) {
-        cleanedResult = cleanedResult :+ line
+  private def cleanExternalResult(externalResult: Seq[String]): Seq[String] = {
+    if (!externalResult.isEmpty) {
+      val line = externalResult(0)
+      val externalResult0 = externalResult.drop(1)
+      if (line.contains("tff(") || line.contains("tcf(")) {
+        val res = Seq[String](line)
+        res ++ cleanExternalResult(externalResult0)
+      } else {
+        cleanExternalResult(externalResult0)
       }
+    } else {
+      externalResult
     }
   }
 
   private def languageToTHF(listOfFormulas: Seq[String]): Seq[String] = {
-    var res = Seq[String]()
-    for(line <- listOfFormulas) {
-      res = res :+ "thf" + line.substring(3,line.length())
-    }
+    val line = listOfFormulas(0)
+    val listOfFormulas0 = listOfFormulas.drop(1)
+    ("thf" + line.substring(3,line.length())) +: languageToTHF(listOfFormulas0)
   }
+}
+
   /*
     object Role {
     def apply(role: String): Role = role.trim match {
@@ -54,4 +60,4 @@ object Translation {
     val test: String = "Example"
   }
   */
-}
+
