@@ -19,7 +19,7 @@ object Translation {
       val line = externalResult(0)
       val externalResult0 = externalResult.drop(1)
       if (line.contains("tff(") || line.contains("tcf(")) {
-        val res = Seq[String](line)
+        val res = Seq[String]("thf" + line.substring(3,line.length()))
         res ++ cleanExternalResult(externalResult0)
       } else {
         cleanExternalResult(externalResult0)
@@ -27,12 +27,6 @@ object Translation {
     } else {
       externalResult
     }
-  }
-
-  private def languageToTHF(listOfFormulas: Seq[String]): Seq[String] = {
-    val line = listOfFormulas(0)
-    val listOfFormulas0 = listOfFormulas.drop(1)
-    ("thf" + line.substring(3,line.length())) +: languageToTHF(listOfFormulas0)
   }
 }
 
