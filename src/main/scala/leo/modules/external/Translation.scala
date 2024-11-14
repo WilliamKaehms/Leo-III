@@ -1,6 +1,7 @@
 package leo.modules.external
 
 import leo.modules.input
+import leo.modules.output._
 import leo.datastructures.{Role, Signature, Term, TPTP}
 import javax.management.relation.Role
 
@@ -12,6 +13,8 @@ object Translation {
 
   final def apply(externalResult: String): String = {
     val res = cleanExternalResult(externalResult.split("\n"))
+    val test = deleteAddedDeclaration(convertToAnnotaded(res))
+    leo.Out.output(test.mkString("\n"))
     res.mkString("\n")
   }
 
@@ -19,37 +22,17 @@ object Translation {
     val res = cleanExternalResult(externalResult.split("\n"))
     res.mkString("\n")
   } 
-  /*
-  private def cleanExternalResult(externalResult: Seq[String]): Seq[String] = {
-    if (!externalResult.isEmpty) {
-      val line = externalResult(0)
-      val externalResult0 = externalResult.drop(1)
-      if (line.contains("tff(") || line.contains("tcf(")) {
-        val res = Seq[String](s"thf${line.substring(3,line.length())}")
-        res ++ cleanExternalResult(externalResult0)
-      } else {
-        cleanExternalResult(externalResult0)
-      }
-    } else {
-      externalResult
-    }
-  }
-  */
   private val cleanExternalResult = (externalResult: Seq[String]) => for {
     line0 <- externalResult.filter(line => line.contains("tff(") || line.contains("tcf("))
   } yield s"thf${line0.substring(3,line0.length())}"
 
-  private def convertResultToTPTP(externalResult: Seq[String]) : Seq[TPTP.AnnotatedFormula] = {
-    import leo.modules.encoding.TypedFOLEncodingSignature
-    var formulas: Seq[TPTP.AnnotatedFormula] = Seq.empty
-    val externalIter = externalResult.iterator
-    while(externalIter.hasNext) {
-      formulas :+ input.Input.parseAnnotated(externalIter.next())
-    }
-    val foSig = TypedFOLEncodingSignature()
-    input.Input.processProblem(formulas)(foSig)
-    formulas
-  }
+  private val convertToAnnotaded = (externalResult: Seq[String]) => for {
+    line <- externalResult
+  } yield input.Input.parseAnnotated(line)
+
+  private val deleteAddedDeclaration = (externalResult: Seq[TPTP.AnnotatedFormula]) => for {
+    line <- externalResult
+  } yield line.name
 }
 
   /*
