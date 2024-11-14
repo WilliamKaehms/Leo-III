@@ -21,10 +21,11 @@ project/plugins/project/
 src/main/resources/META-INF/
 
 # VSCode Scala (Metals) extention
-*.json
-*.db
-*.semanticdb
-project/metals.sbt
+/.bloop
+/.metals
+/.vscode
+project/*
+
 
 
 # Compile specific

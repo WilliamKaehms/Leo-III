@@ -221,7 +221,7 @@ trait TptpProver[C <: ClauseProxy] extends HasCapabilities { self =>
 
       if (Configuration.isSet("atpdebug")) {
         val answer0 = stdin.mkString("\n")
-        val answer = if (answer0.contains("Proof found!")) Translation.translateToTHF(answer0) else answer0
+        val answer = if (answer0.contains("Proof found!")) Translation(answer0) else answer0
         leo.Out.output("#############################")
         leo.Out.output("name:" + name)
         leo.Out.output("--------------------")
