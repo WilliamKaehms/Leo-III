@@ -12,19 +12,14 @@ import javax.management.relation.Role
 object Translation {
 
   final def apply(externalResult: String): String = {
-    val res = cleanExternalResult(externalResult.split("\n"))
+    //val res = cleanExternalResult(externalResult.split("\n"))
+    val res = filterProof(externalResult.split("\n"))
     val test = deleteAddedDeclaration(convertToAnnotaded(res))
     leo.Out.output(test.mkString("\n"))
     res.mkString("\n")
   }
 
-  def translateToTHF(externalResult: String): String = {
-    val res = cleanExternalResult(externalResult.split("\n"))
-    res.mkString("\n")
-  } 
-  private val cleanExternalResult = (externalResult: Seq[String]) => for {
-    line0 <- externalResult.filter(line => line.contains("tff(") || line.contains("tcf("))
-  } yield s"thf${line0.substring(3,line0.length())}"
+  private val filterProof = (externalResult: Seq[String]) => externalResult.filter(line => line.contains("tff(") || line.contains("tcf("))
 
   private val convertToAnnotaded = (externalResult: Seq[String]) => for {
     line <- externalResult
@@ -32,7 +27,7 @@ object Translation {
 
   private val deleteAddedDeclaration = (externalResult: Seq[TPTP.AnnotatedFormula]) => for {
     line <- externalResult
-  } yield line.name
+  } yield line.formula.toString()
 }
 
   /*
