@@ -25,9 +25,12 @@ object Translation {
     line <- externalResult
   } yield input.Input.parseAnnotated(line)
 
-  private val deleteAddedDeclaration = (externalResult: Seq[TPTP.AnnotatedFormula]) => for {
-    line <- externalResult
-  } yield line.formula.toString()
+  private val deleteAddedDeclaration = (externalResult: Seq[TPTP.AnnotatedFormula]) => externalResult.filter(line => !(line.symbols.contains("$tType") && setContainsxx(line.symbols)) )
+
+  private def setContainsxx(set: Set[String]): Boolean = {
+    val setW = for { element <- set } yield element.startsWith("xx")
+    setW.contains(true)
+  }
 }
 
   /*
