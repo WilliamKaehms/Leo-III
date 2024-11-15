@@ -4,6 +4,7 @@ import leo.modules.input
 import leo.modules.output._
 import leo.datastructures.{Role, Signature, Term, TPTP}
 import javax.management.relation.Role
+import leo.modules.external
 
 /**
   * TODO Create some Code
@@ -15,22 +16,27 @@ object Translation {
     //val res = cleanExternalResult(externalResult.split("\n"))
     val res = filterProof(externalResult.split("\n"))
     val test = deleteAddedDeclaration(convertToAnnotaded(res))
-    leo.Out.output(test.mkString("\n"))
+    leo.Out.output(convertedToString(test).mkString("\n"))
     res.mkString("\n")
   }
 
-  private val filterProof = (externalResult: Seq[String]) => externalResult.filter(line => line.contains("tff(") || line.contains("tcf("))
+  private val filterProof = (externalResult: Seq[String]) => 
+    externalResult.filter(line => line.contains("tff(") || line.contains("tcf("))
 
   private val convertToAnnotaded = (externalResult: Seq[String]) => for {
     line <- externalResult
   } yield input.Input.parseAnnotated(line)
 
-  private val deleteAddedDeclaration = (externalResult: Seq[TPTP.AnnotatedFormula]) => externalResult.filter(line => !(line.symbols.contains("$tType") && setContainsxx(line.symbols)) )
+  private val deleteAddedDeclaration = (externalResult: Seq[TPTP.AnnotatedFormula]) => externalResult.filter(line => 
+    !(line.symbols.contains("$tType") && setContainsxx(line.symbols)) )
 
   private def setContainsxx(set: Set[String]): Boolean = {
     val setW = for { element <- set } yield element.startsWith("xx")
     setW.contains(true)
   }
+
+  private val convertedToString = (externalResult: Seq[TPTP.AnnotatedFormula]) =>
+    externalResult.map(line => line.pretty)
 }
 
   /*
