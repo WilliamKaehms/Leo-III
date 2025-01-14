@@ -207,7 +207,7 @@ object SeqLoop {
               val emptyClause = AnnotatedClause(Clause.empty,
                 extCallInference(extResAnswer.prover.name,
                   extResAnswer.problem))
-              //Out.comment(extResAnswer.output.mkString("\n"))
+              Out.comment(extResAnswer.output.mkString("\n"))
               state.setProof(state.proof)
               endplay(emptyClause, state)
             } else {
